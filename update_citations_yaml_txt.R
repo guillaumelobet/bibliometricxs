@@ -3,13 +3,6 @@ library(yaml)
 library(bibtex)
 library(rjson)
 library(lubridate)
-library(rorcid)
-
-# orcid <- "0000-0002-5883-4572"
-# out$`external-ids.external-id`[[1]]$`external-id-value`
-# (out <- works(orcid_id(orcid)))
-# orcid_works(orcid = orcid)
-# out$`external-ids`
 
 path_pubs <- "https://raw.githubusercontent.com/guillaumelobet/guillaumelobet.github.io/master/_data/publications.yml"
 path_pres <- "https://raw.githubusercontent.com/guillaumelobet/guillaumelobet.github.io/master/_data/presentations.yml"
