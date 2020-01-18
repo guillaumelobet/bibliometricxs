@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573808345425.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3273161733",
+    "id" : "E81E4F05",
+    "lastKnownWriteTime" : 1574955505,
+    "last_content_update" : 1574955505690,
+    "path" : "~/Dropbox/science/projects/bibliometricxs/plot_bibliometrics.R",
+    "project_path" : "plot_bibliometrics.R",
+    "properties" : {
+        "cursorPosition" : "85,20",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

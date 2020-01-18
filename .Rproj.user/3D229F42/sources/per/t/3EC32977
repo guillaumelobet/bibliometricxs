@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573806768400.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3809175764",
+    "id" : "3EC32977",
+    "lastKnownWriteTime" : 1558446538,
+    "last_content_update" : 1558446538,
+    "path" : "~/Dropbox/science/teaching/UCL/FDP_cartes/results_ccat/ccat_analysis.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "110,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

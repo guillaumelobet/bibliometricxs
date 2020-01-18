@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573809328737.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "15A05DFD",
+    "lastKnownWriteTime" : 4490682620,
+    "last_content_update" : 1573809328737,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "DC5364B8",
+        "caption" : "papers",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=papers&cache_key=DC5364B8",
+        "displayedObservations" : "36",
+        "environment" : "",
+        "expression" : "papers",
+        "object" : "papers",
+        "preview" : "0",
+        "totalObservations" : "36",
+        "variables" : "10"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

@@ -1,0 +1,139 @@
+
+library(tidyverse)
+library(readxl)
+library(visNetwork)
+library(viridis)
+library(cowplot)
+library(network)
+library(sna)
+library(ggplot2)
+library(GGally)
+library(igraph)
+
+
+setwd("~/Desktop/Rees et Lobet/")
+
+
+# GET ALL THE DATA AND COMBINE IT AS ONE DATAFRAME
+files <- list.files(pattern = ".xlsx")
+rs <- NULL
+i <- 1
+for(f in files){
+  temp <- read_xlsx(f) %>% 
+    select(cours, noma, programme, test_id, questionnaire_id, Série, note, id_siege, id_collaborateurs) %>% 
+    filter(!is.na(note)) %>%
+    mutate(id_siege = as.numeric(id_siege)) #%>% 
+    #distinct(id_siege, .keep_all = T)
+  print(f)
+  print(str(temp))
+  
+  rs <- rbind(rs, temp)
+}
+
+rs <- rs %>% 
+  mutate(test_uid = paste(cours, test_id, sep="-")) %>%
+  mutate(note = as.numeric(note))
+
+# GLOBAL OVERVIEW OF ALL TESTS
+rs %>% 
+  ggplot(aes(x=questionnaire_id, y=note, colour=cours)) +
+  geom_boxplot() + 
+  facet_wrap(~test_uid) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+  
+
+
+# GET ALL THE TESTS ONE BY ONE
+
+tests <- unique(rs$test_uid)
+
+for(te in tests){
+  temp1 <- rs %>% 
+    filter(test_uid == te,
+           questionnaire_id == "q1") %>% 
+    distinct(noma, .keep_all = T)
+  
+  temp2 <- rs %>% 
+    filter(test_uid == te,
+           questionnaire_id == "q2") %>% 
+    select(noma, note)%>% 
+    distinct(noma, .keep_all = T)
+  
+  temp <- merge(temp1, temp2, by = "noma") %>% 
+    mutate(q1 = note.x,
+           q2 = note.y,
+           diff = note.y - note.x)
+  
+  # Create the node dataframe
+  cols <- viridis(round(max(temp$q1)))
+  nodes <- tibble(id = temp$id_siege, 
+                      q1 = temp$q1,
+                      q2 = temp$q2,
+                      diff = temp$diff,
+                      serie = temp$Série,
+                      programme = temp$programme,
+                      value=temp$q2, 
+                      color=cols[round(temp$q2)])
+  
+  # create the edges dataframe
+  edges <- NULL
+  for(i in c(1:nrow(temp))){
+    collabs <- strsplit(temp$id_collaborateurs[i], ",")[[1]]
+    for(co in collabs){
+      if(!is.null(edges)){
+        temp1 <- edges %>% filter(from == temp$id_siege[i] &  to == co) %>% nrow()
+        temp2 <- edges %>% filter(to == temp$id_siege[i] &  from == co) %>% nrow()
+        if(temp2+temp1 == 0){
+          edges <- rbind(edges, 
+                         data.frame(from = temp$id_siege[i], 
+                                    to = as.numeric(co)))
+        }
+      }else{
+        edges <- rbind(edges, 
+                       data.frame(from = temp$id_siege[i], 
+                                  to = as.numeric(co)))
+      }
+    }
+  }
+  edges <- edges %>% 
+    filter(to %in% unique(nodes$id)) %>% 
+    filter(from %in% unique(nodes$id)) %>% 
+    filter(from != to)
+  
+  
+  # Q1
+  nodes <- nodes %>% 
+    mutate(color=cols[round(q1)])
+  net <- graph_from_data_frame(d=edges, vertices=nodes, directed=F) 
+  net$layout <- layout_with_fr
+  l <-layout_with_fr(net)
+  pdf(paste0(te, " - q1.pdf"), 60, 60)
+    plot(net, vertex.size=3, vertex.label=NA, layout=l)
+    title(paste0(te, " - q1"))
+  dev.off()
+  
+  # Q2
+  nodes <- nodes %>% 
+    mutate(color=cols[round(q2)])
+  net <- graph_from_data_frame(d=edges, vertices=nodes, directed=F) 
+  pdf(paste0(te, " - q2.pdf"), 60, 60)
+    plot(net, vertex.size=3, vertex.label=NA, layout=l)
+    title(paste0(te, " - q2"))
+  dev.off()
+}
+
+scale_range <- range(nodes$diff)
+colorNumeric("RdBu", domain = scale_range)
+
+
+
+
+
+
+
+  
+
+
